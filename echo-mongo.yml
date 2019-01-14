@@ -9,6 +9,7 @@ spec:
   type: LoadBalancer
   ports:
     - name: mongo-server
+      protocol: TCP
       port: 27017
       targetPort: 27017
   selector:
@@ -22,7 +23,7 @@ metadata:
   labels:
     app: echo-mongo
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: mongo-server
@@ -38,26 +39,19 @@ spec:
           ports:
             - name: mongo-server
               containerPort: 27017
-#              hostPort: 27017
+          #              hostPort: 27017
           resources:
             requests:
               cpu: 100m
               memory: 256Mi
-#          volumeMounts:
-#            - name: mongo-data
-#              mountPath: /mongodb/data
-#              readOnly: true
+          volumeMounts:
+            - name: mongo-data
+              mountPath: /data/db
 #      volumes:
 #        - name: mongo-data
 #          persistentVolumeClaim:
 #            claimName: mongo-store
-
-          volumeMounts:
-            - mountPath: /mongodb/data
-              name: mongo-data
       volumes:
         - name: mongo-data
           persistentVolumeClaim:
-            claimName: mongo-store
-
-
+            claimName: mongo-pv-storage

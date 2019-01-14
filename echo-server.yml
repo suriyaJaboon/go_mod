@@ -8,6 +8,7 @@ metadata:
 spec:
   ports:
     - name: echo-server
+      protocol: TCP
       port: 1323
       targetPort: 1323
   selector:
@@ -23,7 +24,7 @@ metadata:
   labels:
     app: echo-server
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: echo-server
@@ -51,14 +52,3 @@ spec:
           persistentVolumeClaim:
             claimName: echo-store
 
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: echo-store
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1G
