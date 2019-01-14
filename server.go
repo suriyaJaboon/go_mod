@@ -70,12 +70,13 @@ func main() {
 func database() *mgo.Session {
 	// MongoDB
 	MongoConfig := &mgo.DialInfo{
-		//Addrs:     []string{"mongo-server:27017"},
-		Addrs:     []string{"localhost:27017"},
+		Addrs:     []string{"mongo-server:27017"},
+		//Addrs:     []string{"mongo-server-echo:27017"},
+		//Addrs:     []string{"localhost:27017"},
 		Timeout:   10 * time.Second,
 		PoolLimit: 10,
-		Username:  "mongoadmin",
-		Password:  "mongoadmin",
+		//Username:  "mongoadmin",
+		//Password:  "mongoadmin",
 		Database:  "mongoadmin",
 	}
 

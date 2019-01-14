@@ -1,0 +1,63 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: mongo-server
+  name: mongo-server
+spec:
+  type: LoadBalancer
+  ports:
+    - name: mongo-server
+      port: 27017
+      targetPort: 27017
+  selector:
+    app: mongo-server
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo-mongo
+  labels:
+    app: echo-mongo
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mongo-server
+  template:
+    metadata:
+      labels:
+        app: mongo-server
+        environment: test
+    spec:
+      containers:
+        - name: mongo-server
+          image: mongo
+          ports:
+            - name: mongo-server
+              containerPort: 27017
+#              hostPort: 27017
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+#          volumeMounts:
+#            - name: mongo-data
+#              mountPath: /mongodb/data
+#              readOnly: true
+#      volumes:
+#        - name: mongo-data
+#          persistentVolumeClaim:
+#            claimName: mongo-store
+
+          volumeMounts:
+            - mountPath: /mongodb/data
+              name: mongo-data
+      volumes:
+        - name: mongo-data
+          persistentVolumeClaim:
+            claimName: mongo-store
+
+
