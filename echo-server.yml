@@ -13,6 +13,7 @@ spec:
       targetPort: 1323
   selector:
     app: echo-server
+    tier: echo-server
   type: LoadBalancer
 
 ---
@@ -28,10 +29,14 @@ spec:
   selector:
     matchLabels:
       app: echo-server
+      tier: echo-server
+      track: stable
   template:
     metadata:
       labels:
         app: echo-server
+        tier: echo-server
+        track: stable
     spec:
       containers:
         - name: echo-server

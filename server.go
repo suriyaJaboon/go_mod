@@ -32,7 +32,7 @@ const (
 
 func main() {
 	e := echo.New()
-	database()
+//	database()
 
 	// Middleware
 	e.Use(middleware.Logger())
